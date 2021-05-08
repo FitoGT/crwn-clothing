@@ -1,8 +1,8 @@
 import React from 'react'
-import Directory from '../components/directory/directory'
+import Directory from '../../components/directory/directory'
 import './home.scss'
 
-const Home = () => (
+const Home = ({history}) => (
     <div className="homepage">
         <Directory />
     </div>
