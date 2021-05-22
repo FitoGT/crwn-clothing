@@ -1,13 +1,17 @@
 import './App.css';
-import { Switch, Route, Redirect } from 'react-router-dom'
 import Home from './views/home/home'
 import Shop from './views/shop/shop'
 import Sign from './views/sign/sign'
-import { auth, createUserProfileDocument } from './firebase/firebase.utils'
+import Checkout from './components/checkout/checkout';
 import Header from "./components/header/header"
 import React from 'react';
+
+import { Switch, Route, Redirect } from 'react-router-dom'
+
+import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 import { connect } from 'react-redux'
 import { setCurrentUser } from './redux/user/user.actions'
+
 class App extends React.Component {
 
 
@@ -43,6 +47,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/shop" component={Shop} />
+          <Route exact path="/checkout" component={Checkout} />
           <Route exact path="/sign" render={()=>
             this.props.currentUser ? (
               <Redirect to=""></Redirect>
