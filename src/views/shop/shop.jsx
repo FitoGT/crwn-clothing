@@ -12,8 +12,8 @@ const Shop = ({collections}) => (
 
 )
 
-const mapStateToProps = ({shop}) =>({
-    collections: shop  
+const mapStateToProps = ({shop:{collections}}) =>({
+    collections  
 })
 
 export default connect(mapStateToProps)(Shop)
