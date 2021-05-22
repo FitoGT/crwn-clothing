@@ -1,7 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import './checkout-items.scss'
-
-const CheckoutItems = ({cartItem:{name,imageUrl,quantity,price}}) => (
+import { deleteItem } from '../../redux/cart/cart.actions'
+const CheckoutItems = ({ cartItem: { id, name, imageUrl, quantity, price }, deleteItem }) => (
     <div className="checkout-item">
         <div className="image-container">
             <img src={imageUrl} alt="item" />
@@ -11,8 +12,12 @@ const CheckoutItems = ({cartItem:{name,imageUrl,quantity,price}}) => (
 
         <span className="price">{price}</span>
 
-        <div className="remove-button">&#10005;</div>
+        <div onClick={() => deleteItem(id)} className="remove-button">&#10005;</div>
     </div>
 )
+const mapDispatchToProps = dispatch => ({
 
-export default CheckoutItems
+    deleteItem: id => dispatch(deleteItem(id))
+
+})
+export default connect(null, mapDispatchToProps)(CheckoutItems)
