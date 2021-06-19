@@ -4,7 +4,7 @@ import { selectCartItems } from '../../redux/cart/cart.selectors'
 import { total } from '../../redux/cart/cart.selectors'
 import './checkout.scss'
 import CheckoutItems from '../checkout-items/checkout-items'
-
+import StripeCheckoutButton from '../stripe-button/stripe-button'
 
 const Checkout = ({cartItems,total}) =>(
     <div className="checkout-page">
@@ -31,6 +31,14 @@ const Checkout = ({cartItems,total}) =>(
             ))
         }
         <div className="total">${total}</div>
+        <div className="text-warning">
+            *PLEASE USE THIS CREDIT CARD FOR BUYING*
+            <br/>
+            4242424242424242 any 3 digits for CVV and any future date for expiration date
+        </div>
+        <br/>
+        <StripeCheckoutButton price={total}/>
+
     </div>
 )
 
