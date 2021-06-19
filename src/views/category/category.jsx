@@ -7,13 +7,19 @@ const Category = ({ match, collections }) => {
     const category = collections.find(c => c.routeName === match.params.categoryId)
 
     return (
-        <div className="category">
-            <div className="items">
-                {category.items.map(item => (
-                    <CollectionItem key={item.id} item={item} />
 
-                ))}
-            </div>
+        <div className="category">
+            {category?
+                <div className="items">
+                    {category.items.map(item => (
+                        <CollectionItem key={item.id} item={item} />
+
+                    ))}
+                </div>
+                :
+                null
+            }
+
         </div>
     )
 }
