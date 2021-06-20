@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Collections from '../../components/collections/collections'
 import { firestore, mapCollection } from '../../firebase/firebase.utils'
 import Category from '../category/category'
@@ -10,41 +10,38 @@ import WrappedSpinner from '../../components/spinner/spinner'
 const CollectionsSpinner = WrappedSpinner(Collections)
 const CategorySpinner = WrappedSpinner(Category)
 
-class Shop extends React.Component {
-    state = {
-        loading: true
-    }
+const Shop = ({ match, updateCollections }) => {
 
-    unsuscribeFromSnapshot = null
-
-    componentDidMount() {
-        const { updateCollections } = this.props
+    const [loading, setLoading] = useState(true)
+    
+    useEffect(() => {
         const colRef = firestore.collection('collections')
-
-        this.unsuscribeFromSnapshot = colRef.onSnapshot(async snapshot => {
+        const unsuscribeFromSnapshot = colRef.onSnapshot(async snapshot => {
 
             const collectionData = mapCollection(snapshot)
             updateCollections(collectionData)
-            this.setState({ loading: false })
+            setLoading(false)
         })
-    }
+        //clean up function, component unmount
+        return()=>{
+            unsuscribeFromSnapshot()
+        }
+    }, [updateCollections])
 
-    render() {
-        const { match } = this.props
-        const { loading } = this.state
-        return (
-            <div className="shop-page">
-                <Route
-                    exact path={`${match.path}`}
-                    render={(props) => <CollectionsSpinner isLoading={loading} {...props} />}
-                />
-                <Route
-                    path={`${match.path}/:categoryId`}
-                    render={(props) => <CategorySpinner isLoading={loading} {...props} />}
-                />
-            </div>
-        )
-    }
+
+    return (
+        <div className="shop-page">
+            <Route
+                exact path={`${match.path}`}
+                render={(props) => <CollectionsSpinner isLoading={loading} {...props} />}
+            />
+            <Route
+                path={`${match.path}/:categoryId`}
+                render={(props) => <CategorySpinner isLoading={loading} {...props} />}
+            />
+        </div>
+    )
+
 }
 
 const mapDispatchToProps = dispatch => ({
